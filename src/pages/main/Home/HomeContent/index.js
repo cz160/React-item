@@ -1,22 +1,32 @@
 import React, { Component,Fragment} from 'react';
 import {HomeContentNav,OwnNavLink} from './stylecomponents'
-import {Route,NavLink,Redirect,Switch} from 'react-router-dom'
+import {Route,Redirect,Switch} from 'react-router-dom'
+import ShopList from './ShopList'
+import  Footer from './foot'
 class HomeContent extends Component {
+  constructor(props){
+    super(props)
+    this.state = {
+        lists:[
+            {id:0,path:'/today',title:'今日10点上新',type:"formal"},
+            {id:1,path:'/tomoto',title:'明日10点预告',type:"pre"}
+        ]
+    }
+  }
   render() {
     return (
         <Fragment>
             <HomeContentNav>
-                <OwnNavLink  to="/today">今日10点上新</OwnNavLink>
-                <OwnNavLink to="/tomoto">明日10点预告</OwnNavLink>
+                {
+                    this.state.lists.map(item=><OwnNavLink key={item.id} to={item.path}>{item.title}</OwnNavLink>)
+                }
                 <Switch>
                     <Redirect exact from="/" to="/today" />
-                    <Route path="/today" render={()=>{
-                        return <div>111</div>
-                    }} />
-                    <Route path="/tomoto" render={()=>{
-                        return <div>222</div>
-                    }} />
+                    {
+                        this.state.lists.map(item=> <Route exact key={item.id} path={item.path} render={()=>{return <ShopList {...item} /> }} />)
+                    }
                 </Switch>
+                <Footer  />
             </HomeContentNav>
         </Fragment>
     );

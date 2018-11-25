@@ -3,6 +3,7 @@ import { Tabs, WhiteSpace } from 'antd-mobile';
 import { StickyContainer, Sticky } from 'react-sticky';
 import {HeadNavContent} from './stylecomponents'
 import HomeContent from './HomeContent'
+import QuickContent from './QuickContent'
 function renderTabBar(props) {
     return (<Sticky>
       {({ style }) => <div style={{ ...style, zIndex: 1 }}><Tabs.DefaultTabBar {...props} /></div>}
@@ -29,16 +30,16 @@ function renderTabBar(props) {
             <HomeContent />
           </HeadNavContent>
           <HeadNavContent>
-            222
+            <QuickContent />
           </HeadNavContent>
           <HeadNavContent>
-            333
+            <HomeContent />
           </HeadNavContent>
           <HeadNavContent>
-            444
+            <HomeContent />
           </HeadNavContent>
           <HeadNavContent>
-            555
+           <HomeContent />
           </HeadNavContent>
         </Tabs>
       </StickyContainer>
