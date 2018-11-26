@@ -1,14 +1,16 @@
-import React, { Component,PureComponent} from 'react';
+import React, { Component,Fragment} from 'react';
 import { Tabs, WhiteSpace } from 'antd-mobile';
-import { PingNav,PingList} from './stylecomponent'
+import axios from 'axios'
+import { PingNav,PingList,ContentWrap} from './stylecomponent'
 import BScroll from 'better-scroll'
 import ListItem from './ListItem'
-import axios from 'axios'
-class Ping extends PureComponent {
+// import axios from 'axios'
+var p=1;
+var type='coutuan_home';
+class Ping extends Component {
   constructor(props){
     super(props)
     this.state = {
-      type:'coutuan_home',
       lists:[],
       tabs:[
         {title:'推荐',type:'coutuan_home'},
@@ -28,7 +30,8 @@ class Ping extends PureComponent {
   }
   render(){
     return (
-      <PingNav>
+      <Fragment>
+        <PingNav>
         <WhiteSpace />
         <Tabs tabs={this.state.tabs}
         tabBarUnderlineStyle={{'borderColor':'#fe4070'}}
@@ -38,48 +41,67 @@ class Ping extends PureComponent {
         swipeable={false}
         animated={false}
         onTabClick={(data)=>{
-            //点击修改type，重新传递type值给子组件
-            this.setState({
-              type:data.type
-            })
+           this.setState((prevState)=>{
+             type=data.type
+             this.getInitDate()
+             //切换后回到顶部
+             this.scroll.scrollTo(0,0)
+             return prevState
+           })                        
         }}
         tabBarTextStyle={{fontSize:'14px'}}
         renderTabBar={props => <Tabs.DefaultTabBar {...props} page={5} />}>
-          {this.renderContent()}
         </Tabs>
         <WhiteSpace />
       </PingNav>
-      
+        <ContentWrap className='wrapper'>
+          <PingList>
+              <ListItem lists={this.state.lists} />
+          </PingList>
+        </ContentWrap>
+      </Fragment>
+        
     )
   }
-  //渲染内容
-  renderContent =()=>{
-    return (
-      <div style={{height:'590px',overflow:'hidden'}} ref={el=>this.el=el}>
-          <PingList>   
-              <ListItem type={this.state.type} scroll={this.scroll}/> 
-          </PingList>
-      </div> 
-    );
-  }
   componentDidMount(){
-    //初始化实例化
-    this.scroll = new BScroll(this.el,{
-      click: true,
-      scrollY: true,
-      pullUpLoad: {
-          threshold: 50
+    this.getInitDate()
+    this.scroll = new  BScroll('.wrapper',{
+        probeType:2
+    })
+    let that = this;
+    this.scroll.on('touchEnd',function(position){
+      if (position.y < (this.maxScrollY - 30)){
+        that.getMoreData()
+        setTimeout(()=>{
+          this.refresh();
+        },0)
+         
       }
+     
     })
   }
-  componentDidUpdate(){
-    //更新之后实例化后面的组件
-    this.scroll = new BScroll(this.el,{
-      click: true,
-      scrollY: true,
-      pullUpLoad: {
-          threshold: 50
-      }
+  //第一次获取数据
+  getInitDate(){
+    axios({
+      url:`/api/yiqituan/tab_list?tab=${type}&page=1&per_page=20`
+    }).then((res)=>{
+      this.setState((prevState)=>{
+          prevState.lists=res.data.data
+          return prevState
+      })
+    })
+  }
+  //拉动加载更多数据
+  getMoreData(){
+    p++;
+    axios({
+      url:`/api/yiqituan/tab_list?tab=${type}&page=${p}&per_page=20`
+    }).then((res)=>{
+      this.setState((prevState)=>{
+          prevState.lists.push(...res.data.data)
+          console.log(prevState)
+          return prevState
+      })
     })
   }
 }

@@ -5,7 +5,7 @@ class HeadCommon extends Component{
         return (
            <CommonHead>
                <div className="head-back-box">﹤</div>
-               <div className="head-title">购物车</div>
+               <div className="head-title">{this.props.title}</div>
                <div className='home'>☞</div>
            </CommonHead>
         )

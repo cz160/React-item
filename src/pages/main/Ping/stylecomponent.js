@@ -2,12 +2,11 @@ import styled from 'styled-components'
 
 export const PingNav = styled.div`
     width:100%;
-    height:100%;
+    height:44px;
     .am-whitespace-md{
         height:0px !important;
     }
-    background: #f5f5f5;
-    /* overflow:hidden; */
+    overflow:hidden;
 `
 export const PingList = styled.section`
     display: 'flex';
@@ -99,4 +98,9 @@ export const PingList = styled.section`
             }
         }
     }
+`
+export const ContentWrap = styled.div`
+    background: #f5f5f5;
+    height:573px;
+    overflow:hidden;
 `

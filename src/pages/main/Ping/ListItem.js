@@ -1,18 +1,11 @@
 import React, { Component,Fragment } from 'react';
-import axios from 'axios'
+import uuid from 'uuid'
 class ListItem extends Component{
-    constructor(props){
-        super(props)
-        this.state = {
-            lists:[],
-            p:1
-        }
-    }
     render(){
         return (
             <Fragment>
                 {
-                    this.state.lists.length>0 && this.state.lists.map(item=>this.renderItem(item))
+                    this.props.lists.length>0 && this.props.lists.map(item=>this.renderItem(item))
                 }
             </Fragment>
             
@@ -20,7 +13,7 @@ class ListItem extends Component{
     }
     renderItem =(item)=>{
             return (
-                <a className="list-item" key={item.item_id}>
+                <a className="list-item" key={uuid()}>
                     <div className="people-number">{item.buyer_number_text}</div>
                     <div className="goods-topsmall">
                         <img alt="" src={item.image} />
@@ -35,22 +28,11 @@ class ListItem extends Component{
                             <span className="jm-price">{item.single_price}</span>
                         </div>
                         <div className="time-right">
-                            <span className="goods-btn">去开团</span>
+                            <span className="goods-btn">购买</span>
                         </div>
                     </div>
                 </a>
             ) 
-    }
-    //每次点击切换时，相当于切换了组件
-    componentWillMount(){
-        axios({
-            url:`/api/yiqituan/tab_list?tab=${this.props.type}&page=${this.state.p}&per_page=20`
-        }).then((res)=>{
-            this.setState((prevState)=>{
-                prevState.lists.push(...res.data.data)
-                return prevState
-            })
-        })
     }
 }
 export default ListItem
