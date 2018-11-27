@@ -70,26 +70,23 @@ class Ping extends Component {
     this.getInitDate()
     this.scroll = new  BScroll('.wrapper',{
         probeType:2,
-        click:true
+        click:true,
+        pullUpLoad: {
+          threshold:-50
+        }
     })
-    let that = this;
     //控制回到顶部按钮
-    this.scroll.on('scroll',function(position){
+    this.scroll.on('scroll',(position)=>{
       if(position.y<=-100){
-        that.el.style.opacity=1;
+        this.el.style.opacity=1;
       }else{
-        that.el.style.opacity=0;
+        this.el.style.opacity=0;
       }
     })
-    this.scroll.on('touchEnd',function(position){
-      if (position.y < (this.maxScrollY - 30)){
-        that.getMoreData()
-        setTimeout(()=>{
-          this.refresh();
-        },0)
-         
-      }
-     
+    this.scroll.on('pullingUp',async()=>{
+        await this.getMoreData()
+        this.scroll.finishPullUp()
+        this.scroll.refresh();
     })
   }
   //第一次获取数据
@@ -111,7 +108,6 @@ class Ping extends Component {
     }).then((res)=>{
       this.setState((prevState)=>{
           prevState.lists.push(...res.data.data)
-          console.log(prevState)
           return prevState
       })
     })
