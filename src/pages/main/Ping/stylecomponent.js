@@ -104,3 +104,12 @@ export const ContentWrap = styled.div`
     height:573px;
     overflow:hidden;
 `
+export const GoTop = styled.div`
+    width:41px;
+    height:41px;
+    position:sticky;
+    bottom: 0px;
+    left:345px;
+    transform-origin: 0px 0px 0px;
+    opacity: 0;
+`

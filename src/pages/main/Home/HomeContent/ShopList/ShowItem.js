@@ -1,4 +1,5 @@
 import React,{Fragment,Component} from 'react'
+import {withRouter} from 'react-router-dom'
 import uuid from 'uuid'
 import {
     ShowListItem
@@ -10,9 +11,15 @@ class ShowItem extends Component{
                 {
                    this.props.list.length>=0&&this.props.list.map(item=>{
                        return (
-                        <ShowListItem key={uuid()}>
-                            {this.renderItem(item)}
-                        </ShowListItem>
+                            <ShowListItem key={uuid()}  onClick={()=>{
+                                if(!item.item_id){
+                                    window.location.href=`${item.h5_url}`
+                                }else{
+                                    this.props.history.push(`/deteil?id=${item.item_id}&type=${item.type}&name=${item.short_name}`)
+                                }
+                            }}>
+                                {this.renderItem(item)}
+                            </ShowListItem>
                        )
                         
                    }) 
@@ -50,4 +57,4 @@ class ShowItem extends Component{
     }
     
 }
-export default ShowItem
+export default withRouter(ShowItem)

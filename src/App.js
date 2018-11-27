@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
+import {Route,Switch,Redirect} from 'react-router-dom'
 import MainContainer from '@P/main/MainContainer'
+import DeteilWrap from '@P/detail'
+
 document.cookie="default_site_25=bj";
 document.cookie="first_visit=1";
 document.cookie="first_visit_time=1541337954";
@@ -27,8 +30,13 @@ class App extends Component {
   render() {
     return (
       <div>
-          <MainContainer />
+        <Switch>
+          <Redirect from='/' to='/main' exact></Redirect>
+          <Route path="/deteil" component={DeteilWrap}></Route>
+          <Route path="/main" component={MainContainer}></Route>
+        </Switch>  
       </div>
+
     );
   }
 }

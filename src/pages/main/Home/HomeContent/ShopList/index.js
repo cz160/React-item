@@ -13,7 +13,7 @@ class ShopList extends Component{
     }
     componentDidMount(){
        axiox({
-           url:`/mock/${this.props.type}.json`
+        url:`/h5/index/ajaxDealactList?card_id=4057&client_v=1&page=1&platform=wap&type=${this.props.type}&page_key=`
        }).then((res)=>{
             this.setState({
                 lists:[...res.data.item_list]

@@ -7,4 +7,11 @@ module.exports = function(app) {
             "^/api": ""
         }
     }));
+    app.use(proxy('/h5', { 
+        target: 'http://h5.jumei.com/',
+        changeOrigin:true,
+        pathRewrite:{
+            "^/h5": ""
+        }
+    }));
 };

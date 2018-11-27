@@ -1,7 +1,7 @@
 import React, { Component,Fragment} from 'react';
 import { Tabs, WhiteSpace } from 'antd-mobile';
 import axios from 'axios'
-import { PingNav,PingList,ContentWrap} from './stylecomponent'
+import { PingNav,PingList,ContentWrap,GoTop} from './stylecomponent'
 import BScroll from 'better-scroll'
 import ListItem from './ListItem'
 // import axios from 'axios'
@@ -59,6 +59,9 @@ class Ping extends Component {
               <ListItem lists={this.state.lists} />
           </PingList>
         </ContentWrap>
+        <GoTop ref={el=>this.el=el} onClick={()=>{this.scroll.scrollTo(0,0)}}>
+            <img alt="" src="http://f0.jmstatic.com/btstatic/h5/index/go_top.png"/>
+        </GoTop>
       </Fragment>
         
     )
@@ -66,9 +69,18 @@ class Ping extends Component {
   componentDidMount(){
     this.getInitDate()
     this.scroll = new  BScroll('.wrapper',{
-        probeType:2
+        probeType:2,
+        click:true
     })
     let that = this;
+    //控制回到顶部按钮
+    this.scroll.on('scroll',function(position){
+      if(position.y<=-100){
+        that.el.style.opacity=1;
+      }else{
+        that.el.style.opacity=0;
+      }
+    })
     this.scroll.on('touchEnd',function(position){
       if (position.y < (this.maxScrollY - 30)){
         that.getMoreData()
