@@ -38,7 +38,13 @@ class ShowItem extends Component{
            return (
             <div className="jmstore-item item-each">
                 <div className="product-img">
-                    <img alt="" src={item.image_url_set.dx_image.url['800']} />
+                    {
+                        item.image_url_set.dx_image?(
+                            <img alt="" src={item.image_url_set.dx_image.url['800']} />
+                        ):(
+                            <img alt='' src={item.image_url_set.single.url['800']} />
+                        )
+                    }
                 </div>
                 <div className="product-detail">
                     <div className="title">{item.name}</div>
