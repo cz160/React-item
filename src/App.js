@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import {Route,Switch,Redirect} from 'react-router-dom'
 import MainContainer from '@P/main/MainContainer'
 import DeteilWrap from '@P/detail'
-
+import List from '@P/list'
+import Test from '@P/bug'
 document.cookie="default_site_25=bj";
 document.cookie="first_visit=1";
 document.cookie="first_visit_time=1541337954";
@@ -34,6 +35,8 @@ class App extends Component {
           <Redirect from='/' to='/main' exact></Redirect>
           <Route path="/deteil" component={DeteilWrap}></Route>
           <Route path="/main" component={MainContainer}></Route>
+          <Route path="/list" component={List}></Route>
+          <Route path="/bug" component={Test}></Route>
         </Switch>  
       </div>
 
