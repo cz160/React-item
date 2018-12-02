@@ -43,7 +43,7 @@ class Ping extends Component {
         onTabClick={(data)=>{
            this.setState((prevState)=>{
              type=data.type
-             this.getInitDate()
+             this.getInitDate() 
              //切换后回到顶部
              this.scroll.scrollTo(0,0)
              return prevState
